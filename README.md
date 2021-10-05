@@ -10,3 +10,6 @@ As simple as it is, Subleq systems are known to be practicle. There is even a fu
 The RAM has a NUMA architecture. Cells located close to the CPU are accessed about 4 times faster than the furthest ones. The display memory starts at #0400. Note that since the machine was 32-bit addressing, #100 means 1024, not 256 bytes. The lowerst 4k of the memory should be used for common library functions and variables.
 
 The Izhora emulator, written in Common Lisp, is currently in its pre-alpha stage (usable though). An assembler and Python scripts for coding the actual machine in Golly are yet to be written. Some work has been already done toward a new version of the computer that will have, hopefully, RISC features implemented by mapping some jump addresses to other operations, several registers with an advanced ALU, and a script-driven emulated keyboard.
+
+Although the computer is fully operational, each operations takes about 40,000 generations on average. Programs longer than 10-20k will inevitably slow down Golly's hashlife algorithm. Don't expect to see more than 5-7 operation per second. The only way to run it reasonably fast on Golly is by a simulator yet to be written.
+ 
