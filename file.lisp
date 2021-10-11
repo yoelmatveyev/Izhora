@@ -1,6 +1,6 @@
 (in-package :cl-izhora)
 
-(defun print-machine-state (machine &key (stream t))
+(defun print-machine (machine &key (stream t))
   (let
       ((a0 (aref (izhora-a machine) 0))
        (a1 (aref (izhora-a machine) 1))
@@ -16,11 +16,45 @@
 	(format stream "~4,'0X ~8,'0X~%" x (aref (izhora-code machine) x))))))
 
 
-(defun save-machine-state (machine file &key comment)
+(defun save-machine (machine file &key comment)
   (with-open-file
       (stream (concatenate 'string file ".izh")
 	      :direction :output :if-exists :supersede)
     (when comment
       (format stream "#~a~%" comment))
-    (print-machine-state machine :stream stream))
+    (print-machine machine :stream stream))
   t)
+
+(defun load-machine (file)
+  (let (machine)
+    (with-open-file
+	(stream (concatenate 'string file ".izh")
+		:direction :input :if-does-not-exist nil)
+      (when stream
+	(setf machine (make-izhora))
+	(loop for line = (read-line stream nil)
+              while line
+              do (unless (or (find #\# line) (zerop (length line)))
+		   (if (find #\: line)
+		       (progn  (when (search "A0" line)
+				 (setf (aref (izhora-a machine) 0)
+				       (parse-integer line :start 3 :radix 16 :junk-allowed t)))
+			       (when (search "A1" line)
+				 (setf (aref (izhora-a machine) 1)
+				       (parse-integer line :start 3 :radix 16 :junk-allowed t)))
+			       (when (search "A2" line)
+				 (setf (aref (izhora-a machine) 2)
+				       (parse-integer line :start 3 :radix 16 :junk-allowed t)))
+			       (when (search "A3" line)
+				 (setf (aref (izhora-a machine) 3)
+				       (parse-integer line :start 3 :radix 16 :junk-allowed t)))
+			       (when (search "PC" line)
+				 (setf (izhora-pc machine)
+				       (parse-integer line :start 3 :radix 16 :junk-allowed t)))
+			       (when (search "CT" line)
+				 (setf (izhora-counter machine)
+				       (parse-integer line :start 3 :radix 16 :junk-allowed t))))
+		       (setf (aref (izhora-code machine)
+				   (parse-integer line :radix 16 :junk-allowed t))
+			     (parse-integer line :start 4 :radix 16 :junk-allowed t)))))))
+    machine))
