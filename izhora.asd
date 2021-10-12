@@ -9,8 +9,8 @@
   :components ((:file "package")	
 	       (:file "izhora")
 	       (:file "basic-coding")
-	       (:file "auxiliary")
 	       (:file "assembler")
+	       (:file "macro-commands")
 	       (:file "file")
 	       (:file "display")))
 
