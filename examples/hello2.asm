@@ -14,7 +14,7 @@ sub $wrd7,$0x040E
 sub $wrd8,$0x0413
 sub $wrd9,$0x0412
 
-# Addition inverts of 10 words making up the "Hello World!" message
+# Addition inverses (negatives) of 10 words making up the "Hello World!" message
 
 wrd0:
 .word $0x68BBCFBC
