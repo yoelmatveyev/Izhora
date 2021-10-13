@@ -5,7 +5,7 @@ In 2017 I wrote a simple virtual machine, which uses balanced ternary logic inst
 
 The current basic version of the computer, Izhora 1, has 256k of 32-bit word-addressable XOR-writable RAM, a 32-bit accumulator, a 16-bit program counter and a 128x64 graphic display. It has only one operation: a variety of Subleq known to be Turing-complete. On each cycle, the CPU reads a 32-bit word from the RAM and interprets its 16 highest bits and an absolute jump address and the lowest 16 bits as an operand address. The accumulator is them subtracted from the operand; the result is stored in both the accumulator and the operand. If the result was zero or negative, the CPU branches to the jump address; otherwise it proceeds to the next instruction.
 
-As simple as it is, Subleq systems are known to be practical. There is even a full-fledged OS with a C-like compiler written for an emulated 64-bit Subleq computer; it's called Dawn OS.
+As simple as it is, Subleq systems are known to be practical. There is even a full-fledged OS with a C-like compiler written for an emulated 64-bit Subleq computer, called Dawn OS.
 
 The RAM has a NUMA architecture. Cells located close to the CPU are accessed about 4 times faster than the furthest ones. The display memory starts at #0400. Note that since the machine was 32-bit addressing, #100 means 1024, not 256 bytes. The lowest 4k of the memory should be used for common library functions and variables.
 
