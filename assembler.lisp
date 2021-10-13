@@ -129,14 +129,26 @@
 		(if (equal (subseq caddr-line 0 1) "$")
 		    (setf cur org)
 		    (setf cur (mod (+ cur org) #x10000)))
-		(format t "Warning: Indirect addresses in .org not supported~%")))))))
+		(progn
+		  (if (setf org (asm-label-addr caddr-line label-list :label-list t))
+		      (if (equal (subseq caddr-line 0 1) "$")
+			  (progn
+			    (setf cur org)
+			    (format t "Warning: org to previously defined label ~a~%" caddr-line))
+			  (progn
+			    (setf cur (asm-label-value caddr-line asm-list label-list))))
+		      (format t "Unknown label in .org~%"))
+		)))))))
     (append (list 'LBL label-list) asm-list)))
 
-(defun asm-label-addr (lb asm-list)
-  (let (res)
-  (loop for x in (cadr asm-list) do
-    (when (equal (car x) (string-upcase lb))
-      (setf res (cdr x))))
+(defun asm-label-addr (lb asm-list &key (label-list nil))
+  (let (res
+	(l (if label-list asm-list (cadr asm-list))))
+    (if (equal (subseq lb 0 1) "$")
+	(setf lb (subseq lb 1 (length lb))))
+    (loop for x in l do
+      (when (equal (car x) (string-upcase lb))
+	(setf res (cdr x))))
     res))
 
 (defun asm-parse-pass1 (asm-list)
@@ -161,8 +173,7 @@
 			       (subseq (nth y (cddr x)) 1 (length (nth y (cddr x)))))))
 	       (if (setf word (parse-word (nth y (cddr x))))
 		   (setf (nth y (cddr x)) (mod (+ word (asm-line-addr x)) #x10000))
-		   (if (setf lb-addr (asm-label-addr (nth y (cddr x)) asm-list))
-		       (format t "Warning: Indirect label~%")
+		   (unless (setf lb-addr (asm-label-addr (nth y (cddr x)) asm-list))
 		       (format t "Warning: Label ~a not found~%" (nth y (cddr x))))))))
 	(D
 	 (if (numberp (caddr x))
@@ -171,19 +182,18 @@
 		 (if (equal (subseq (caddr x) 0 1) "$")
 		     (if (setf word (parse-word (caddr x)))
 			 (setf (caddr x) word)
-			 (if (setf lb-addr (asm-label-addr
-					    (subseq (caddr x) 1 (length (caddr x)))
-					    asm-list))
+			 (if (setf lb-addr (asm-label-addr (caddr x) asm-list))
 			     (setf (caddr x) lb-addr)
 			     (format t "Warning: Label ~a not found~%"
 				     (subseq (caddr x) 1 (length (caddr x))))))
 		     (if (setf word (parse-word (caddr x)))
-			 (setf (caddr x) (mod (+ word (asm-line-addr x)) #x10000))
-			 (format t "Warning: Indirect label~%"))))))))
+			 (setf (caddr x) (mod (+ word (asm-line-addr x)) #x10000)))))))))
     asm-list))
 
-(defun asm-label-value (lb asm-list)
-  (let ((addr (asm-label-addr lb asm-list))res)
+(defun asm-label-value (lb asm-list &optional label-list)
+  (let (addr res)
+    (if label-list (setf asm-list (append (list 'LBL label-list) asm-list)))
+    (setf addr (asm-label-addr lb asm-list))
     (loop for y in (cddr asm-list) do
 	(when (eq (asm-line-addr y) addr)
 	  (case (car y)
