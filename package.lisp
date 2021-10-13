@@ -24,7 +24,7 @@
 	   asm-compile
 	   asm-compile-file
 	   asm-to-machine
-	   compile-asm-to-machine
+	   asm-compile-file-to-machine
 	   *standard-macros*
 	   *standard-data*
 	   ))

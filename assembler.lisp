@@ -26,7 +26,8 @@
       nil))
 
 (defun split-asm-line (line)
-  (setf line (substitute #\Space #\, line))
+  (setf line (substitute #\Space #\, line)
+	line (substitute #\Space #\Tab line))
   (loop for i = 0 then (1+ j)
 	as j = (position #\Space line :start i)
 	collect (subseq line i j)
@@ -221,11 +222,7 @@
 	  (format t "Compilation failed: Unresolvable label ~a~%" flag2)
 	  asm-list)))
 
-(defun asm-compile (asm-list &key
-			       (offset 0)
-			       (macros nil)
-			       (var nil)
-			       (var-addr 0))
+(defun asm-compile (asm-list &key (offset nil)(macros nil)(var nil)(var-addr 0))
     (loop for x in asm-list do
       (if (and (equal (car x) 'D) (equal (string-upcase (cadr x)) "STDMACROS")(not macros))
 	  (setf macros *standard-macros*))
@@ -237,7 +234,7 @@
 	       (append (list (list 'D "org"
 			   (concatenate 'string "$" (write-to-string var-addr))))
 	       var))
-	   (list (list 'D "org" (write-to-string offset)))
+	   (if offset (list (list 'D "org" (write-to-string offset))))
 	   asm-list))
     (asm-parse-labels
      (asm-parse-pass1
@@ -255,14 +252,17 @@
 				(var-addr 0))
   (asm-compile (asm-raw-load file) :offset offset :macros macros :var var :var-addr var-addr))
 
-(defun asm-to-machine (asm-lisp machine)
-  (loop for x in (cddr asm-lisp) do
+(defun asm-to-machine (asm-list machine)
+  (let (setpc)
+  (loop for x in (cddr asm-list) do
     (when (equal (car x) 'C)
       (set-command machine (asm-line-addr x) (caddr x) (cadddr x)))
     (when (and (equal (car x) 'D) (equal (cadr x) 'WORD))
-      (set-data machine (asm-line-addr x) (caddr x)))))
+      (set-data machine (asm-line-addr x) (caddr x))))
+    (setf setpc (asm-label-addr "_setpc" asm-list))
+    (if setpc (setf (izhora-pc machine) setpc))))
 
-(defun compile-asm-to-machine (file machine &key
+(defun asm-compile-file-to-machine (file machine &key
 					      (offset 0)
 					      (macros nil)
 					      (var nil)
@@ -270,4 +270,3 @@
   (asm-to-machine
    (asm-compile-file file :offset offset :macros macros :var var :var-addr var-addr)
 		     machine))
-
