@@ -1,10 +1,9 @@
 # Hello World!
 
 .stdmacros # Include standard macrocommands
-.stdvars # Include standard variables
 
-_setpc: # By default, PC will be set to this label
-
+=0:
+	subleq $1,$1
 	sub $wrd0,$0x0403
 	sub $wrd1,$0x0402
 	sub $wrd2,$0x0407
