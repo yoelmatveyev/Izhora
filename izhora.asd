@@ -12,5 +12,6 @@
 	       (:file "assembler")
 	       (:file "macro-commands")
 	       (:file "file")
-	       (:file "display")))
+	       (:file "display")
+	       (:file "executable")))
 
