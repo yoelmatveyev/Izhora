@@ -5,7 +5,7 @@
    (subseq line 0 (search "#" line))))
 
 (defun immedp (string)
-  (if (numberp string) nil
+  (if (or (numberp string) (equal string "")) nil
       (if (equal (subseq string 0 1) "$") t nil)))
 
 (defun cut-$ (string)
@@ -112,7 +112,7 @@
 	     (equal (string-upcase (cadr (nth x asm-list))) "WORD")
 	     (not (symbolp (cadr (nth x asm-list)))))
 	(setf asm-list (list-replace asm-list x
-				     (loop for n in (cddr (nth x asm-list))
+				     (loop for n in (remove "" (cddr (nth x asm-list)) :test #'equal)
 					   collect (list 'D 'WORD n))))
 	(return asm-list))
       (when (and
@@ -179,13 +179,13 @@
       (loop for x in (cddr asm-list) do
 	(case (car x)
 	  (C 
-	   (if (setf val (asm-label-addr (cut-$ (caddr x)) asm-list))
+	   (if (setf val (asm-label-addr (caddr x) asm-list))
 	       (progn (setf (caddr x) (add-$ val) flag1 t)
 		      (unless (immedp (caddr x))
 			  (format t "Warning: ignoring indirect address in SUBLEQ~%"))) 
 	       (unless (parse-word (caddr x))
 		 (setf flag2 (caddr x))))
-	   (if (setf val (asm-label-addr (cut-$ (cadddr x)) asm-list))
+	   (if (setf val (asm-label-addr (cadddr x) asm-list))
 	       (progn (setf (cadddr x) (add-$ val) flag1 t)
 		      (unless (immedp (cadddr x))
 			(format t "Warning: ignoring indirect operand in SUBLEQ~%")))
@@ -230,7 +230,7 @@
       :offset offset)))
 
 (defun asm-compile-file (file &key
-				(offset 0)
+				(offset nil)
 				(macros nil)
 				(var nil)
 				(var-addr 0))
@@ -240,19 +240,21 @@
   (let (setpc)
   (loop for x in (cddr asm-list) do
     (when (equal (car x) 'C)
-      (unless (immedp (caddr x))
-	(setf (caddr x) (mod (+ (parse-word (caddr x)) (asm-line-addr x)) #x10000)))
-      (unless (immedp (cadddr x))
-	(setf (cadddr x) (mod (+ (parse-word (cadddr x)) (asm-line-addr x)) #x10000)))
-      (set-command machine (asm-line-addr x) (parse-word (caddr x)) (parse-word (cadddr x))))
+      (if (immedp (caddr x))
+	  (setf (caddr x) (logand (parse-word (caddr x)) #xFFFF))
+	  (setf (caddr x) (logand (+ (parse-word (caddr x)) (asm-line-addr x)) #xFFFF)))
+      (if (immedp (cadddr x))
+	  (setf (cadddr x) (logand (parse-word (cadddr x)) #xFFFF))
+	  (setf (cadddr x) (logand (+ (parse-word (cadddr x)) (asm-line-addr x)) #xFFFF)))
+      (set-command machine (asm-line-addr x) (caddr x) (cadddr x)))
     (when (and (equal (car x) 'D) (equal (cadr x) 'WORD))
-      (set-data machine (asm-line-addr x) (parse-word (caddr x))))
+      (set-data machine (asm-line-addr x) (logand (parse-word (caddr x)) #xFFFFFFFF)))
     (when (and (equal (car x) 'D) (equal (cadr x) 'GLOBAL))
       (setf setpc (caddr x))))
     (if setpc (setf (izhora-pc machine) setpc))))
 
 (defun asm-compile-file-to-machine (file machine &key
-					      (offset 0)
+					      (offset nil)
 					      (macros nil)
 					      (var nil)
 					      (var-addr 0))
