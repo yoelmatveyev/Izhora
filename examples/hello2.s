@@ -19,22 +19,22 @@ _setpc: # By default, PC will be set to this label
 # Negatives of 10 words making up the "Hello World!" message
 
 wrd0:
-.word	$0x68BBCFBC
+.word	0x68BBCFBC
 wrd1:
-.word	$0x31B8FC00
+.word	0x31B8FC00
 wrd2:
-.word	$0x6BBBB7BB
+.word	0x6BBBB7BB
 wrd3:
-.word	$0xD6BB7C00
+.word	0xD6BB7C00
 wrd4:
-.word	$0x09BBB7AB
+.word	0x09BBB7AB
 wrd5:
-.word	$0xD1BB7C00
+.word	0xD1BB7C00
 wrd6:
-.word	$0x6BBBB7AB
+.word	0x6BBBB7AB
 wrd7:
-.word	$0xD5BB8000
+.word	0xD5BB8000
 wrd8:
-.word	$0x6888CFD8
+.word	0x6888CFD8
 wrd9:
-.word	$0x3688FC00
+.word	0x3688FC00
