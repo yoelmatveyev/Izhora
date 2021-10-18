@@ -4,6 +4,24 @@
   (string-trim '(#\Space #\Backspace #\Tab)
    (subseq line 0 (search "#" line))))
 
+(defun immedp (string)
+  (if (numberp string) nil
+      (if (equal (subseq string 0 1) "$") t nil)))
+
+(defun cut-$ (string)
+      (if (or (numberp string) (equal string ""))
+      string
+      (if (equal (subseq string 0 1) "$")
+      (subseq string 1 (length string))
+      string)))
+
+(defun add-$ (n)
+  (if (immedp n) n
+      (concatenate 'string "$"
+		   (if (numberp n)
+		       (write-to-string n)
+		       n))))
+
 (defun parse-word (string)
   (let (res)
     (if (numberp string) (setf res string) 
@@ -41,7 +59,7 @@
 	  (append '(d) (split-asm-line
 			(subseq line (1+ (search "." line))
 				(length line))))
-	  (append '(c) (split-asm-line line)))))
+	  (remove "" (append '(c) (split-asm-line line)) :test #'equal))))
 
 (defun asm-raw-load (file)
   (let (asm-list sexpr)
@@ -98,6 +116,11 @@
 					   collect (list 'D 'WORD n))))
 	(return asm-list))
       (when (and
+	     (equal (string-upcase (cadr (nth x asm-list))) "GLOBAL")
+	     (not (symbolp (cadr (nth x asm-list)))))
+	(setf (cadr (nth x asm-list)) 'GLOBAL)
+	(return asm-list))      
+      (when (and
 	     (equal (string-upcase (cadr (nth x asm-list))) "ORG")
 	     (not (symbolp (cadr (nth x asm-list)))))
 	(setf (cadr (nth x asm-list)) 'ORG)
@@ -125,84 +148,29 @@
 	    (incf cur))
 	   (ORG
 	    (setf caddr-line (caddr (nth x asm-list)))
+	    (when (immedp caddr-line)
+	      (format t "Warning: ignoring $ in .org ~a~%" org)
+	      (setf org (cut-$ org)))
 	    (if (setf org (parse-word caddr-line))
-		(if (equal (subseq caddr-line 0 1) "$")
-		    (setf cur org)
-		    (setf cur (mod (+ cur org) #x10000)))
-		(progn
-		  (if (setf org (asm-label-addr caddr-line label-list :label-list t))
-		      (if (equal (subseq caddr-line 0 1) "$")
-			  (progn
-			    (setf cur org)
-			    (format t "Warning: org to previously defined label ~a~%" caddr-line))
-			  (progn
-			    (setf cur (asm-label-value caddr-line asm-list label-list))))
-		      (format t "Unknown label in .org~%"))
-		)))))))
+		(setf cur org)
+		(if (setf org (asm-label-addr caddr-line label-list :label-list t))
+		    (progn
+		      (setf cur org)
+		      (format t "Warning: .org backwards to ~a~%" caddr-line))
+		    (progn
+		      (setf cur (asm-label-value caddr-line asm-list label-list))
+		      (format t "Unknown label in .org~%")))))))))
     (append (list 'LBL label-list) asm-list)))
 
 (defun asm-label-addr (lb asm-list &key (label-list nil))
-  (let (res
+  (let (res	
 	(l (if label-list asm-list (cadr asm-list))))
-    (if (equal (subseq lb 0 1) "$")
-	(setf lb (subseq lb 1 (length lb))))
-    (loop for x in l do
-      (when (equal (car x) (string-upcase lb))
-	(setf res (cdr x))))
-    res))
-
-(defun asm-parse-pass1 (asm-list)
-  (let (lb-addr word)
-    (loop for x in (cddr asm-list) do
-      (case (car x)
-	(C
-	 (loop for y from 0 to 1 do 
-	   (if (and
-		(arrayp (nth y (cddr x)))
-		(equal (subseq (nth y (cddr x)) 0 1) "$"))
-	       (if (setf word (parse-word (nth y (cddr x))))
-		   (setf (nth y (cddr x)) (mod word #x10000))
-		   (if (setf lb-addr
-			     (asm-label-addr
-			      (subseq (nth y (cddr x))
-				      1
-				      (length (nth y (cddr x))))
-			      asm-list))
-		       (setf (nth y (cddr x)) lb-addr)
-		       (format t "Warning: Label ~a not found~%"
-			       (subseq (nth y (cddr x)) 1 (length (nth y (cddr x)))))))
-	       (if (setf word (parse-word (nth y (cddr x))))
-		   (setf (nth y (cddr x)) (mod (+ word (asm-line-addr x)) #x10000))
-		   (unless (setf lb-addr (asm-label-addr (nth y (cddr x)) asm-list))
-		       (format t "Warning: Label ~a not found~%" (nth y (cddr x))))))))
-	(D
-	 (if (numberp (caddr x))
-	     (setf (caddr x) (mod (+ word (asm-line-addr x)) #x10000))
-	     (if (equal (cadr x) 'WORD)
-		 (if (equal (subseq (caddr x) 0 1) "$")
-		     (if (setf word (parse-word (caddr x)))
-			 (setf (caddr x) word)
-			 (if (setf lb-addr (asm-label-addr (caddr x) asm-list))
-			     (setf (caddr x) lb-addr)
-			     (format t "Warning: Label ~a not found~%"
-				     (subseq (caddr x) 1 (length (caddr x))))))
-		     (if (setf word (parse-word (caddr x)))
-			 (setf (caddr x) (mod (+ word (asm-line-addr x)) #x10000)))))))))
-    asm-list))
-
-(defun asm-label-value (lb asm-list &optional label-list)
-  (let (addr res)
-    (if label-list (setf asm-list (append (list 'LBL label-list) asm-list)))
-    (setf addr (asm-label-addr lb asm-list))
-    (loop for y in (cddr asm-list) do
-	(when (eq (asm-line-addr y) addr)
-	  (case (car y)
-	    (C
-	     (setf res (cadddr y)))
-	    (D
-	     (if (equal (cadr y) 'WORD)
-		 (setf res (mod (caddr y) #x10000)))))))
-   (if (numberp res) res nil)))
+    (setf lb (cut-$ lb))
+    (if (numberp lb) (setf res nil)
+	(loop for x in l do
+	  (when (equal (car x) (string-upcase lb))
+	    (setf res (cdr x)))))
+	res))
 
 (defun asm-parse-labels (asm-list)
   (let ((flag1 t) flag2 val)
@@ -210,26 +178,35 @@
       (setf flag1 nil flag2 nil)
       (loop for x in (cddr asm-list) do
 	(case (car x)
-	  (C
-	   (unless (numberp (caddr x))
-		   (if (setf val (asm-label-value (caddr x) asm-list))
-		       (setf (caddr x) val
-			     flag1 t)
-		       (setf flag2 (caddr x))))
-	   (unless (numberp (cadddr x))
-	     (if (setf val (asm-label-value (cadddr x) asm-list))
-		 (setf (cadddr x) val
-		       flag1 t)
-		 (setf flag2 (cadddr x)))))
+	  (C 
+	   (if (setf val (asm-label-addr (cut-$ (caddr x)) asm-list))
+	       (progn (setf (caddr x) (add-$ val) flag1 t)
+		      (unless (immedp (caddr x))
+			  (format t "Warning: ignoring indirect address in SUBLEQ~%"))) 
+	       (unless (parse-word (caddr x))
+		 (setf flag2 (caddr x))))
+	   (if (setf val (asm-label-addr (cut-$ (cadddr x)) asm-list))
+	       (progn (setf (cadddr x) (add-$ val) flag1 t)
+		      (unless (immedp (cadddr x))
+			(format t "Warning: ignoring indirect operand in SUBLEQ~%")))
+	        (unless (parse-word (cadddr x))
+		  (setf flag2 (cadddr x)))))
 	  (D
-	   (when (equal (cadr x) 'WORD)
-	     (unless (numberp (caddr x))
-			      (if (setf val (asm-label-value (caddr x) asm-list))
-				  (setf (caddr x) val
-					flag1 t)
-				  (setf flag2 (caddr x)))))))))
+	   (case (cadr x)
+	     (WORD
+	      (when (immedp (caddr x))
+		(format t "Warning: ignoring $ in data directive~%"))
+	      (if (setf val (asm-label-addr (cut-$ (caddr x)) asm-list))
+		  (setf (caddr x) val
+			  flag1 t)
+		  (unless (parse-word (caddr x))(setf flag2 (caddr x))))))))))
+    (loop for x in (cdr asm-list) do
+      (if (and (equal (car x) 'D) (equal (cadr x) 'GLOBAL))
+   	  (if (setf val (asm-label-addr (caddr x) asm-list))
+	      (setf (caddr x) val)
+	      (setf flag2 (caddr x))))) 	  
       (if flag2
-	  (format t "Compilation failed: Unresolvable label ~a~%" flag2)
+	  (format t "Error: Unresolvable label ~a~%" flag2)
 	  asm-list)))
 
 (defun asm-compile (asm-list &key (offset nil)(macros nil)(var nil)(var-addr 0))
@@ -240,20 +217,17 @@
 	  (setf var *standard-data*)))	
     (setf asm-list
 	  (append
-	   (if var
-	       (append (list (list 'D "org"
-			   (concatenate 'string "$" (write-to-string var-addr))))
-	       var))
+	   (list (list 'D "org" (write-to-string var-addr)))
+	   (if var var)
 	   (if offset (list (list 'D "org" (write-to-string offset))))
 	   asm-list))
     (asm-parse-labels
-     (asm-parse-pass1
-      (asm-assign-addr
-       (asm-expand-dir
-	(asm-expand-macros
-	 (asm-fix-subleq asm-list)	
-	 :macros macros))
-       :offset offset))))
+     (asm-assign-addr
+      (asm-expand-dir
+       (asm-expand-macros
+	(asm-fix-subleq asm-list)	
+	:macros macros))
+      :offset offset)))
 
 (defun asm-compile-file (file &key
 				(offset 0)
@@ -266,10 +240,15 @@
   (let (setpc)
   (loop for x in (cddr asm-list) do
     (when (equal (car x) 'C)
-      (set-command machine (asm-line-addr x) (caddr x) (cadddr x)))
+      (unless (immedp (caddr x))
+	(setf (caddr x) (mod (+ (parse-word (caddr x)) (asm-line-addr x)) #x10000)))
+      (unless (immedp (cadddr x))
+	(setf (cadddr x) (mod (+ (parse-word (cadddr x)) (asm-line-addr x)) #x10000)))
+      (set-command machine (asm-line-addr x) (parse-word (caddr x)) (parse-word (cadddr x))))
     (when (and (equal (car x) 'D) (equal (cadr x) 'WORD))
-      (set-data machine (asm-line-addr x) (caddr x))))
-    (setf setpc (asm-label-addr "_setpc" asm-list))
+      (set-data machine (asm-line-addr x) (parse-word (caddr x))))
+    (when (and (equal (car x) 'D) (equal (cadr x) 'GLOBAL))
+      (setf setpc (caddr x))))
     (if setpc (setf (izhora-pc machine) setpc))))
 
 (defun asm-compile-file-to-machine (file machine &key
