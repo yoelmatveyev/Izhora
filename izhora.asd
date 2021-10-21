@@ -6,6 +6,8 @@
   :licence "GNU General Public License v3.0"
   :description "A virtual machine simulating a cellular automation computer"
   :long-description "A virtual machine simulating a cellular automation computer with a simple OISC/RISC architecture"
+  :depends-on (#:lispbuilder-sdl
+               #:bordeaux-threads)
   :components ((:file "package")	
 	       (:file "izhora")
 	       (:file "basic-coding")
