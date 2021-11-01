@@ -102,6 +102,6 @@ Versions of "Hello World" using direct and indexed addressing
 
 128-bit factorials (using a triple carry)
 
-Primes (using a primitive repetitive substraction loop for odd values)
+Primes (using a primitive repetitive substraction loop skipping even numbers)
 
 Fibonacci numbers
