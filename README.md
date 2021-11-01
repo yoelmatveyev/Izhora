@@ -22,10 +22,15 @@ The format of raw images is as follows:
 Any line containing # is treated as a comment. Comments may also be added inside code lines after the code. Addresses and register values are written in hex without any delimiters. Ommited values are treated as 0, e.g. there is no need to write "PC: 0000" explicitly. A0 is the accumulator (registers A1-A3, also sercing as shadow accumulators, are to be added in future versions of the machine). CT is the step counter, for the time being only relevant for the emulator.
 
 PC : FFFF
+
 A0 : FFFFFFFF
+
 CT : FFFFFFFF
+
 0000: FFFF
+
 0001: FFFF
+
 # ...
 
 To save the current state of the machine, run the [save script](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/scripts/izhora_save.py).
