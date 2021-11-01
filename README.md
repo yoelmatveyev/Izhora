@@ -52,6 +52,7 @@ The emulator has been tested under Debian Linux (Bullseye), compiled under SBCL.
 
 The assembler follows (more or less) the GNU gas syntax. The following directives are supported:
 
+
 .stdmacros # Include standard macrocommands
 
 .stdvars # Include standard variables
@@ -65,8 +66,11 @@ The assembler follows (more or less) the GNU gas syntax. The following directive
 The standard variables are written by default at 0x0000 (may be overwritten by an .org):
 
 =0 # 0
+
 =1 # 1
+
 =16 # 16
+
 =32 # 32
 
 TMP0 - TMP7 and SYS0 - SYS3 are reserved for temporary data and preset to 0.
@@ -76,15 +80,23 @@ The basic instruction, SUBLEQ, may also be written as  S, SUBLEQ2, S2, SBLQ or -
 The following macrocommands are supported:
 
 ZERO $a # Set A to 0
+
 MOVN $a, $b # Move the 0-a to b; note that unlike the i686 instruction set, the **opposite** arithmetic value is moved.
+
 MOVE $a, $b
+
 SUB $a, $b
+
 ADD $a, $b
+
 JMP $l
 
 The assembler is work in progress and is likely to contain various bugs. See working examples, which include:
 
 Versions of "Hello World" using direct and indexed addressing
+
 128-bit factorials (using a triple carry)
+
 Primes (using a primitive repetitive substraction loop for odd values)
+
 Fibonacci numbers
