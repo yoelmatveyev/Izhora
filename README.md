@@ -15,7 +15,7 @@ Some work has been already done toward a new version of the computer that will h
 
 # Golly scripts
 
-To load a program, add the [Foreworld2.rule](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/Fireworld2.rule) to your Golly rule directory, open the pattern [Izhora.rle](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/Izhora1.rle) or [Izhora.mc](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/Izhora1.mc) into Golly. then run the [load script](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/scripts/izhora_load.py).
+To load a program, add the [Fireworld2.rule](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/Fireworld2.rule) to your Golly rule directory, open the pattern [Izhora.rle](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/Izhora1.rle) or [Izhora.mc](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/Izhora1.mc) into Golly. then run the [load script](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/scripts/izhora_load.py).
 
 The format of raw images is as follows:
 
