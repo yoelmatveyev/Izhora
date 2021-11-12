@@ -19,7 +19,7 @@ To load a program, add the [Fireworld2.rule](https://github.com/yoelmatveyev/Izh
 
 The format of raw images is as follows:
 
-Any line containing # is treated as a comment. Addresses and register values are written in hex without any delimiters. Ommited values are treated as 0, e.g. there is no need to write "PC: 0000" explicitly. A0 is the accumulator (registers A1-A3, also serving as shadow accumulators, are to be added in future versions of the machine). CT is the step counter, for the time being only relevant for the emulator.
+Any line containing # is treated as a comment. Addresses and register values are written in hex without any delimiters. Omitted values are treated as 0, e.g. there is no need to write "PC: 0000" explicitly. A0 is the accumulator (registers A1-A3, also serving as shadow accumulators, are to be added in future versions of the machine). CT is the step counter, for the time being only relevant for the emulator.
 
 PC : FFFF
 
@@ -41,15 +41,15 @@ The emulator has been tested under Debian Linux (Bullseye), compiled under SBCL.
 
 >(defparameter machine (make-izhora)) ; Create an empty machine 
 
->(asm-compile-file-to-machine "whatever.s" machine) ; Comppile an assembly file
+>(asm-compile-file-to-machine "whatever.s" machine) ; Compile an assembly file
 
 >(save-machine machine "whatever") ; Save the machine's state, the extension .izh is automatically added
 
->(step-program machine 100) ; Run the machine by 100 steps, by 1 step if the second parameter is ommited.
+>(step-program machine 100) ; Run the machine by 100 steps, by 1 step if the second parameter is omitted.
 
->(display-run machine :speed 1000) ; Run with the display, 1000 steps poer frame (1 by default)
+>(display-run machine :speed 1000) ; Run with the display, 1000 steps per frame (1 by default)
 
->(print-machine machine) ; Print the machine's state in the REPL, zero values are ommited
+>(print-machine machine) ; Print the machine's state in the REPL, zero values are omitted
 
 >(load-machine machine) ; Load a raw .izh file
 
@@ -62,7 +62,7 @@ The assembler follows (more or less) the GNU gas syntax. The following directive
 
 .stdvars # Include standard variables
 
-.global _label #To set the PC
+.global _label #To set the PC 
 
 .org
 
@@ -100,8 +100,8 @@ The assembler is work in progress and is likely to contain various bugs. See wor
 
 Versions of "Hello World" using direct and indexed addressing
 
-128-bit factorials (using a triple carry)
+128-bit factorials (using a carry propagated between 4 variables)
 
-Primes (using a primitive repetitive substraction loop skipping even numbers)
+Primes (using a primitive repetitive substraction loop, skipping even numbers)
 
 Fibonacci numbers
