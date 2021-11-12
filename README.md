@@ -19,7 +19,7 @@ To load a program, add the [Fireworld2.rule](https://github.com/yoelmatveyev/Izh
 
 The format of raw images is as follows:
 
-Any line containing # is treated as a comment. Addresses and register values are written in hex without any delimiters. Ommited values are treated as 0, e.g. there is no need to write "PC: 0000" explicitly. A0 is the accumulator (registers A1-A3, also sercing as shadow accumulators, are to be added in future versions of the machine). CT is the step counter, for the time being only relevant for the emulator.
+Any line containing # is treated as a comment. Addresses and register values are written in hex without any delimiters. Ommited values are treated as 0, e.g. there is no need to write "PC: 0000" explicitly. A0 is the accumulator (registers A1-A3, also serving as shadow accumulators, are to be added in future versions of the machine). CT is the step counter, for the time being only relevant for the emulator.
 
 PC : FFFF
 
