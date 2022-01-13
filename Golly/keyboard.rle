@@ -1,4 +1,11 @@
-#CXRLE Pos=-31,-21 Gen=4044
+# Yoel Matveyev, January 13, 2022
+# Dot-controlled keyboard with 2 modifier keys for Izhora computers.
+# Scan codes:
+# ROW1: 12,59,42,25,8,55,38,21,4,51,34,17, META (+128, 8th bit)
+# ROW2: 41,24,7,54,37,20,3,50,33,16,63,46,29
+# ROW3: 6,53,36,19,2,49,32,15,62,45,28,11,58
+# ROW4: 35,18,1,48,31,14,61,44,27,10,57,40,23
+# ROW5: SHIFT (+64, 7th bit),47,30,13,60,43,26,9,56,39,22,5,52
 x = 1022, y = 272, rule = Fireworld2
 5.37C14.37C14.37C14.37C14.37C14.37C14.37C14.37C14.37C14.37C14.37C14.
 37C14.37C$3.2C37.2C10.2C37.2C10.2C37.2C10.2C37.2C10.2C37.2C10.2C37.2C
