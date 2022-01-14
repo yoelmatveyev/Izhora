@@ -1,4 +1,5 @@
 # Hello World!
+# A version for Izhora1b 
 
 .stdmacros # Include standard macrocommands
 .stdvars # Include standard variables
