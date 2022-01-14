@@ -5,13 +5,23 @@ The rule, Fireworld2, is based on Fireworld, a very simple 3-state cellular auto
 
 In 2017 I wrote a simple virtual machine, which uses balanced ternary logic instead of binary. It's called Nutes, the reverse of Setun, the historical Soviet computer notable for being the only ternary mainframe ever created. Setun is a river in outskirts of Moscow. Izhora is a river in outskirts of St. Petersburg, named after the ancient Finno-Ugric tribe indigenous to the area.
 
-The current basic version of the computer, Izhora 1, has 256k of 32-bit word-addressable XOR-writable RAM, a 32-bit accumulator, a 16-bit program counter and a 128x64 graphic display. It has only one operation: a variety of Subleq known to be Turing-complete. On each cycle, the CPU reads a 32-bit word from the RAM and interprets its 16 highest bits and an absolute jump address and the lowest 16 bits as an operand address. The accumulator is them subtracted from the operand; the result is stored in both the accumulator and the operand. If the result was zero or negative, the CPU branches to the jump address; otherwise it proceeds to the next instruction. 
+There are currently two basic versions of the computer, Izhora 1 (October 2021) and Izhora 1b (January 2022). Both have 256k of 32-bit word-addressable XOR-writable RAM, a 32-bit accumulator and a 16-bit program counter. There is only one operation: a variety of Subleq known to be Turing-complete. On each cycle, the CPU reads a 32-bit word from the RAM and interprets its 16 highest bits and an absolute jump address and the lowest 16 bits as an operand address. The accumulator is them subtracted from the operand; the result is stored in both the accumulator and the operand. If the result was zero or negative, the CPU branches to the jump address; otherwise it proceeds to the next instruction. 
 
 As simple as it is, Subleq systems are known to be practical. There is even a full-fledged OS with a C-like compiler written for an emulated 64-bit Subleq computer, called Dawn OS.
 
-The RAM has a NUMA architecture. Cells located close to the CPU are accessed times faster than the furthest ones. The display memory starts at #0400. Note that since the machine was 32-bit addressing, #100 means 1024, not 256 bytes. The lowest 4k of the memory should be used for common library functions and variables.
+The RAM has a NUMA architecture. Cells located close to the CPU are accessed times faster than the furthest ones. 
 
-Some work has been already done toward a new version of the computer that will have, hopefully, RISC features implemented by mapping some jump addresses to other operations, optional relative addressing mode, several registers with an advanced ALU, and a script-driven emulated keyboard. However, the machine as it now is fun to program. Although the computer is fully operational, each operation takes about 40,000 generations on average. Programs longer than 10-20k will inevitably slow down Golly's hashlife algorithm. Don't expect to see more than 10 operations per second. It is, after all, a large cellular automation patterns with over 6 millions of cells. The only way to run it faster is currently to download the machine's state, process it by the emulator, and upload it back to the machine. A simulator running it inside Golly is yet to be written.
+Izhora 1 has a 128x64 little-endian up-to-bottom display. Lower addresses are reflected on the top. 
+
+Izhora 1b has a 256x128 little-endian bottom-up display. Lower addresses are reflected lower. 
+
+The display memory in both machines starts at #0400. Note that since the machine was 32-bit addressing, #100 means 1024, not 256 bytes. The lowest 4k of the memory should be used for common library functions and variables.
+
+Izhora 1b has also a full keyboard with two modifier keys, conditionally mapped to the memory address 0xFFFF. If 0xFFFF contains 0, the keyboard controller writes the scancode to this address and gets ready for the next key scan; otherwise, it preserver the code of the first key pressed and waits for 0xFFFF to get cleared.
+
+Some work has been already done toward a new version of the computer that will have, hopefully, RISC features implemented by mapping some jump addresses to other operations, relative addressing mode, several registers with an advanced ALU, one or two stacks etc. However, the machine as it now is fun to program. 
+
+Although the computer is fully operational, each operation takes about 40,000 generations on average. Programs longer than 10-20k will inevitably slow down Golly's hashlife algorithm. Don't expect to see more than 100 operations per second. It is, after all, a large cellular automation patterns with millions of cells. The only way to run it faster is currently to download the machine's state, process it by the emulator, and upload it back to the machine. A simulator running it inside Golly is yet to be written.
 
 # Golly scripts
 
