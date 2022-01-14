@@ -11,9 +11,9 @@ As simple as it is, Subleq systems are known to be practical. There is even a fu
 
 The RAM has a NUMA architecture. Cells located close to the CPU are accessed times faster than the furthest ones. 
 
-''Izhora'' 1 has a 128x64 little-endian up-to-bottom display. Lower addresses are reflected on the top. 
+**Izhora 1** has a 128x64 little-endian up-to-bottom display. Lower addresses are reflected on the top. 
 
-''Izhora 1b'' has a 256x128 little-endian bottom-up display. Lower addresses are reflected lower. 
+**Izhora 1b** has a 256x128 little-endian bottom-up display. Lower addresses are reflected lower. 
 
 The display memory in both machines starts at #0400. Note that since the machine was 32-bit addressing, #100 means 1024, not 256 bytes. The lowest 4k of the memory should be used for common library functions and variables.
 
