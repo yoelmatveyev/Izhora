@@ -15,6 +15,8 @@ The RAM has a NUMA architecture. Cells located close to the CPU are accessed tim
 
 **Izhora 1b** has a 256x128 little-endian bottom-up display. Lower addresses are reflected lower. 
 
+The is also a version of Izhora 1 with a keyboard, called **Izhora 1a**.
+
 The display memory in both machines starts at #0400. Note that since the machine was 32-bit addressing, #100 means 1024, not 256 bytes. The lowest 4k of the memory should be used for common library functions and variables.
 
 Izhora 1b has also a full keyboard with two modifier keys, conditionally mapped to the memory address 0xFFFF. If 0xFFFF contains 0, the keyboard controller writes the scancode to this address and gets ready for the next key scan; otherwise, it preserver the code of the first key pressed and waits for 0xFFFF to get cleared.
