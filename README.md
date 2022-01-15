@@ -9,7 +9,7 @@ There are currently two basic versions of the computer, Izhora 1 (October 2021) 
 
 As simple as it is, Subleq systems are known to be practical. There is even a full-fledged OS with a C-like compiler written for an emulated 64-bit Subleq computer, called Dawn OS.
 
-The RAM has a NUMA architecture. Cells located close to the CPU are accessed times faster than the furthest ones. 
+The RAM has a NUMA architecture. Cells located close to the CPU are accessed several times faster than the furthest ones. 
 
 **Izhora 1** has a 128x64 little-endian up-to-bottom display. Lower addresses are reflected on the top. 
 
