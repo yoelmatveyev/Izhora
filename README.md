@@ -98,7 +98,7 @@ The following macrocommands are supported:
 
 ZERO $a # Set A to 0
 
-MOVN $a, $b # Move the 0-a to b; note that unlike the i686 instruction set, the **opposite** arithmetic value is moved.
+MOVN $a, $b # Move 0-a to b; note that unlike the i686 instruction set, the **opposite** arithmetic value is moved.
 
 MOVE $a, $b
 
