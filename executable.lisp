@@ -1,6 +1,7 @@
 (in-package :cl-izhora)
 
-;; Simple wrapper for making an executable compiler with buildapp
+;;; Supposed wrapper for making an executable compiler with buildapp
+;;; NOR WORKING YET !!! :-)
 
 (defun main (args)
   (let ((machine (make-izhora)))
