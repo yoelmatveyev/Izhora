@@ -1,4 +1,19 @@
 [M2] (golly 4.0)
+
+# Izhora 1
+# A computer build as a cellular automation pattern
+
+# Copyright by Yoel Matveyev, 2021
+# The GNU General Public License v3.0
+
+# This model has:
+# A 128x64 display
+# A Subleq2 OISC CPU 
+# 256k of RAM addressable by 32-bit words
+
+# Read more on the project's page:
+# https://github.com/yoelmatveyev/Izhora
+
 #R Fireworld2
 1 0 0 0 3
 2 0 0 0 1
