@@ -1,4 +1,4 @@
-# Copyright by Yoel Matveyev, 2021
+# Copyright by Yoel Matveyev, 2022
 # The GNU General Public License v3.0
 
 # Script for attaching a real keyboard to an Izhora machine (models with a keyboard)
