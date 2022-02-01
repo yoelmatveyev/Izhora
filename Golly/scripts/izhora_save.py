@@ -1,3 +1,6 @@
+# Copyright by Yoel Matveyev, 2021
+# The GNU General Public License v3.0
+
 import sys
 import golly as g
 
