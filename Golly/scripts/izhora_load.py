@@ -1,3 +1,6 @@
+# Copyright by Yoel Matveyev, 2021
+# The GNU General Public License v3.0
+
 import golly as g
 
 # Check for the wire cell that blocks the gun in the script control counter
