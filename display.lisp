@@ -97,6 +97,9 @@
 (defun display-run (machine &key (run t) (speed display-speed))
   (let (pixel)
     (sdl:with-init ()
+      (if display-large
+        (sdl:window 1920 960 :title-caption (caption machine speed))
+        (sdl:window 1280 640 :title-caption (caption machine speed)))
       (setf (sdl:frame-rate) 30)
       (sdl:with-events ()
 	(:quit-event () t)
@@ -120,8 +123,7 @@
 	       (if display-large
 		   ;; Larger screen
 		   (progn
-		     (sdl:window 1920 960
-				 :title-caption (caption machine speed))
+		     (sdl:window 1920 960 :title-caption (caption machine speed))
 		     ;; Draw the display
 		     (if (< (izhora-model machine) 2)
 			 ;; For 128x64 legacy machines
@@ -142,8 +144,7 @@
 			      :color (if pixel display-color *black*))))))
 		   ;; Smaller screen
 		   (progn
-		     (sdl:window 1280 640
-				 :title-caption (caption machine speed))
+		     (sdl:window 1280 640 :title-caption (caption machine speed))
 		     ;; Draw the display
 		     (if (< (izhora-model machine) 2)
 			 ;; For 128x64 legacy machines
