@@ -16,7 +16,9 @@
 
 (defparameter display-color *red*)
 
-(defparameter display-large nil) 
+(defparameter display-large nil)
+
+(defparameter paused nil)
 
 (defparameter izhora-keyboard-table
   '(
@@ -89,8 +91,9 @@
 	  (case model
 	  (0 "1") (1 "1A") (2 "1B")))	
     (format nil
-	    "Izhora ~a Simulator   Speed: 8^~d   Count: ~d"
-	    model (floor (log speed 8)) ct)))
+	    "Izhora ~a Simulator   Speed: 8^~d   Count: ~a ~a"
+	    model (floor (log speed 8)) ct
+	    (if paused "(Paused)" ""))))
 	  
 ;;; Run simulator
 
@@ -115,7 +118,11 @@
 			 (when (eq key :SDL-KEY-F9)
 			   (setf speed (+ (floor (/ speed 8)) 8)))
 			 (when (eq key :SDL-KEY-F10)
-			   (setf speed (floor (* speed 8))))
+			   (if (plusp shift)
+			       (if paused
+				   (setf paused nil)
+				   (setf paused t))
+			       (setf speed (floor (* speed 8)))))
 			 (process-key machine key)
 			 (if (eq key :SDL-KEY-ESCAPE)
 			     (sdl:push-quit-event)))
@@ -165,4 +172,4 @@
 			    :color (if pixel display-color *black*)))))))
 		   ;; Redraw the display
 		   (sdl:update-display)
-		   (when run (step-program machine speed)))))))
+		   (when run (if paused nil (step-program machine speed))))))))

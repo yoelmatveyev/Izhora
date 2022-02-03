@@ -132,6 +132,10 @@
 	  do (setf asm-list l))
     asm-list))
 
+;;; Missing function!!!
+
+;(defun asm-label-value ())
+
 (defun asm-assign-addr (asm-list &key (offset 0))
   (let ((cur offset) label-list org caddr-line)
     (loop for x from 0 to (length asm-list) do
@@ -159,7 +163,7 @@
 		      (format t "Warning: .org backwards to ~a~%" caddr-line))
 		    (progn
 		      (setf cur (asm-label-value caddr-line asm-list label-list))
-		      (format t "Unknown label in .org~%")))))))))
+		      (format t "Unknown label ~a in .org~%" asm-label-value)))))))))
     (append (list 'LBL label-list) asm-list)))
 
 (defun asm-label-addr (lb asm-list &key (label-list nil))
