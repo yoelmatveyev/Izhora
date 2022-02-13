@@ -3,9 +3,13 @@ Izhora is a fully operational universal computer build as a large pattern constr
 
 The rule, Fireworld2, is based on Fireworld, a very simple 3-state cellular automation I had discovered in 2001. Fireworld has been proven (by me) to be Turing-complete; however, it lacks stable reflectors and splitters, which makes circuitry construction very tedious due to timing issues. Fireworld2 is a natural superset of Fireworld with an additional wiring state. "Electrons", i.e. signals bound to the wires, run on top of immutable wire structures. I would like to thank Brian Prentice for giving me some inspiration by his rule Wilfred invented as a superset of Brian's Brain - a well known rule proven (also by me) to be Turing-complete. Soon after the invention of Fireworld2 I have discovered that it's surprisingly suitable for computation. Simple constuctions act naturally as logic gates, reflectors and splitters, stable bit registers, flip-flops, signal generators etc. All this gives a tremendous enhancement to the computational usability of the original Fireworld and largely eliminates the timing difficulties.
 
+A variety of Fireworld, called FireWorld, was introduced in February 2022. Its wire interaction rules match the "2ak" element of the original Fireworld. The almost identical name was chosen to match the name of the well known rule WireWorld and because FireWorld is meant to supercede the original 2001 rule. 
+
 In 2017 I wrote a simple virtual machine, which uses balanced ternary logic instead of binary. It's called Nutes, the reverse of Setun, the historical Soviet computer notable for being the only ternary mainframe ever created. Setun is a river in outskirts of Moscow. Izhora is a river in outskirts of St. Petersburg, named after the ancient Finno-Ugric tribe indigenous to the area.
 
 There are currently two basic versions of the computer, Izhora 1 (October 2021) and Izhora 1b (January 2022). Both have 256k of 32-bit word-addressable XOR-writable RAM, a 32-bit accumulator and a 16-bit program counter. There is only one operation: a variety of Subleq known to be Turing-complete. On each cycle, the CPU reads a 32-bit word from the RAM and interprets its 16 highest bits and an absolute jump address and the lowest 16 bits as an operand address. The accumulator is them subtracted from the operand; the result is stored in both the accumulator and the operand. If the result was zero or negative, the CPU branches to the jump address; otherwise it proceeds to the next instruction. 
+
+Izhora1 and Izhora1a use Fireworld2. By default, Izhora1b uses FireWorld, altough it is compatible with Fireworld2. 
 
 As simple as it is, Subleq systems are known to be practical. There is even a full-fledged OS with a C-like compiler written for an emulated 64-bit Subleq computer, called Dawn OS.
 
@@ -25,9 +29,40 @@ Some work has been already done toward a new version of the computer that will h
 
 Although the computer is fully operational, each operation takes about 40,000 generations on average. Programs longer than 10-20k will inevitably slow down Golly's hashlife algorithm. Don't expect to see more than 100 operations per second. It is, after all, a large cellular automation patterns with millions of cells. The only way to run it faster is currently to download the machine's state, process it by the emulator, and upload it back to the machine. A simulator running it inside Golly is yet to be written.
 
+# Rules
+
+## Fireworld
+
+***1. A cell is born if surrounded by one live cell horizontally or vertically adjacent to it, while one other live cell is adjacent to it in diagonal.***
+
+***2. A live cell survives either if there are no other live cells in its neighborhood or there are exactly three live cells adjacent to it in a particular way: two adjacent orthogonally (horizontally or vertically), while the third one is adjacent in diagonal.***
+
+***3. Dead cells count as empty and don't interfere with birth or survival, if they are present in the neighborhood. They do prevent a cell to get born in their place though, as usual in the "Generations" rules.***
+
+***4. A dead cell becomes empty in the next generation.***
+
+This rule may be abbreviated in Golly simply as **03ajkr/2ak/3**.
+
+## Fireworld2
+
+The same as above and:
+
+***5. A cell is born if surrounded by 7 live cells***
+
+***6. A cell is born if surrounded by 1 live cell and 2 or 3 wire cells.***
+
+***7. A cell is born if surrounded by two horizontally adjacent live cells and 2 or 3 wire cells.***
+
+## FireWorld
+
+The same as Fireworld2, except that the last rule is generalized to march the birth rule of the original Fireworld.
+
+***7. A cell is born, if surrounded by 1 orthogonal, 1 diagonal neighboring live cells and 2 or 3 wire cells.***
+
+
 # Golly scripts
 
-To load a program, add the [Fireworld2.rule](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/Fireworld2.rule) to your Golly rule directory, open the pattern [Izhora.rle](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/Izhora1.rle) or [Izhora.mc](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/Izhora1.mc) into Golly. then run the [load script](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/scripts/izhora_load.py).
+To load a program, add [Fireworld2.rule](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/Fireworld2.rule) and  [FireWorld.rule](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/FireWorld.rule) to your Golly rule directory, open the pattern [Izhora.rle](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/Izhora1.rle) or [Izhora.mc](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/Izhora1.mc) into Golly. then run the [load script](https://github.com/yoelmatveyev/Izhora/blob/main/Golly/scripts/izhora_load.py).
 
 The format of raw images is as follows:
 
