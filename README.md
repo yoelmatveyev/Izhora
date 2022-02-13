@@ -33,6 +33,8 @@ Although the computer is fully operational, each operation takes about 40,000 ge
 
 ## Fireworld
 
+The original underlying rule:
+
 ***1. A cell is born if surrounded by one live cell horizontally or vertically adjacent to it, while one other live cell is adjacent to it in diagonal.***
 
 ***2. A live cell survives either if there are no other live cells in its neighborhood or there are exactly three live cells adjacent to it in a particular way: two adjacent orthogonally (horizontally or vertically), while the third one is adjacent in diagonal.***
