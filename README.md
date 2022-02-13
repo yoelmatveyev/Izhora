@@ -57,7 +57,7 @@ The same as above and:
 
 ## FireWorld
 
-The same as Fireworld2, except that the last rule is generalized to march the birth rule of the original Fireworld.
+The same as Fireworld2, except that the last rule is generalized to match the birth rule of the original Fireworld.
 
 ***7. A cell is born, if surrounded by 1 orthogonal, 1 diagonal neighboring live cells and 2 or 3 wire cells.***
 
