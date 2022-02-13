@@ -8,11 +8,12 @@
 
 # Wires are implemented as the fourth, immutable state. The new rules are as follows:
 
-# 1. A cell is born, if surrounded by a living (state 1) cell and 2 or 3 wire cells.
-# 2. A cell is born, if surrounded by two horizontally adjacent living cells and 2 or 3 wire cells.
-# The second rule ensures that Fireworld's photons easily "ignite" electrons on wires.   
+# 1. A cell is born if surrounded by 1 live (state 1) cell and 2 or 3 wire cells.
+# 2. A cell is born if surrounded by 2 horizontally adjacent live cells and 2 or 3 wire cells.
 
-# Copyright by Yoel Matveyev, 2020
+# The last rule ensures that Fireworld's photons easily "ignite" electrons on wires.   
+
+# Copyright by Yoel Matveyev, 2001-2020
 # The GNU General Public License v3.0
 
 @COLORS
