@@ -6,7 +6,7 @@
 # This new generation of Fireworld is a hybrid rule combining 03ajkr7/2ak/3 and
 # a Wireworld-like wiring system. It is fully backward compatible with Fireworld.
 
-# Wires are implemented as the fourth, immutable state. The new rules are as follows:
+# Wires are implemented as the fourth, immutable state. The new rules of wire interaction are as follows:
 
 # 1. A cell is born if surrounded by 1 live (state 1) cell and 2 or 3 wire cells (state 3).
 # 2. A cell is born if surrounded by 1 orthogonal and 1 diagonal neighboring live cell and 2 or 3 wire cells.
@@ -196,9 +196,6 @@ var p=i
 0,i,j,k,3,1,3,3,1,1
 0,i,j,k,3,3,1,1,3,1
 0,i,j,k,3,3,3,1,1,1
-
-0,1,1,1,1,1,1,1,3,1
-0,3,1,1,1,1,1,1,1,1
 
 # Cleaning up, making sure the wires are immutable
 
