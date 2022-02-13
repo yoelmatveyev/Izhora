@@ -143,12 +143,15 @@ ADD $a, $b
 
 JMP $l
 
-The assembler is work in progress and is likely to contain various bugs. See working examples, which include:
+The assembler is work in progress and contains various bugs, but it does work. See examples, which include:
 
-Versions of "Hello World" using direct and indexed addressing
+Versions of "Hello World", including one that uses loops and a nested subroutine that moves a given RAM area of arbitrary length to another location. 
+The same subroutine example is used for the following 256-bit programs.
 
-128-bit factorials (using a carry propagated between 4 variables)
+Output 256-bit factorials in binary, adjustable to any length of n words.
 
-Primes (using a primitive repetitive substraction loop, skipping even numbers)
+Output 256-bit Fibonacci numbers in binary, adjustable to any length of n words.
 
-Fibonacci numbers
+Output  256-bit powers of 10 in binary, adjustable to any length of n words and powers of x.
+
+Output primes in binary, using a primitive repetitive substraction loop, skipping even numbers.
