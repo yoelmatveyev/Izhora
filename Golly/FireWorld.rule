@@ -1,0 +1,204 @@
+@RULE FireWorld
+
+# The next generation of Fireworld (03ajkr/2ak/3), proven to be capable 
+# in itself of universal computation and suitable for constructing logic circuits.
+
+# This new generation of Fireworld is a hybrid rule combining 03ajkr7/2ak/3 and
+# a Wireworld-like wiring system. It is fully backward compatible with Fireworld.
+
+# Wires are implemented as the fourth, immutable state. The new rules are as follows:
+
+# 1. A cell is born, if surrounded by 1 living (state 1) cell and 2 or 3 wire cells (state 3).
+# 2. A cell is born, if surrounded by 1 orthogonal and 1 diagonal neighboring living cell and 2 or 3 wire cells.
+
+# The last rule mirrors the "2ak" behavior of Fireworld and helps to ignite electrons on wires by free photons.
+
+# Copyright by Yoel Matveyev, 2001-2022
+# The GNU General Public License v3.0
+
+@COLORS
+
+0 0 0 0
+1 255 0 0
+2 255 255 0
+3 0 0 255
+
+@TABLE
+
+n_states:4
+neighborhood:Moore
+symmetries:rotate4reflect
+var a={0,1,2,3}
+var b=a
+var c=a
+var d=a
+var e=a
+var f=a
+var g=a
+var h=a
+
+var i={0,2}
+var j=i
+var k=i
+var l=i
+var m=i
+var n=i
+var o=i
+var p=i
+
+# The original Fireworld augmented with S7
+
+0,1,1,i,j,k,l,m,n,1
+0,1,i,j,1,k,l,m,n,1
+1,i,j,k,l,m,n,o,p,1
+1,1,1,1,i,j,k,l,m,1
+1,1,i,1,1,j,k,l,m,1
+1,1,1,i,j,1,k,l,m,1
+1,1,i,1,j,k,1,l,m,1
+1,1,i,1,j,k,l,m,1,1
+1,1,1,1,1,1,1,1,i,1
+1,1,1,1,1,1,1,i,1,1
+
+# A computer-generated list of all possible living cells and wire cells positions
+
+0,i,j,1,l,m,3,o,3,1
+0,i,j,3,3,m,n,1,p,1
+0,i,j,3,l,1,n,3,p,1
+0,i,j,3,l,1,n,o,3,1
+0,i,j,3,l,3,n,1,p,1
+0,i,j,3,l,3,n,o,1,1
+0,i,j,3,l,m,3,o,1,1
+0,i,j,3,l,m,n,1,3,1
+0,i,j,3,l,m,n,3,1,1
+0,i,j,k,3,3,n,o,1,1
+0,i,j,k,3,m,1,o,3,1
+0,i,j,k,3,m,3,o,1,1
+0,i,j,k,3,m,n,1,3,1
+0,i,j,k,3,m,n,3,1,1
+0,i,j,k,l,1,3,o,3,1
+0,i,j,k,l,1,n,3,3,1
+0,i,j,k,l,3,1,3,p,1
+0,i,j,k,l,3,1,o,3,1
+0,i,j,k,l,3,3,1,p,1
+0,i,j,k,l,3,3,o,1,1
+0,i,j,k,l,3,n,1,3,1
+0,i,j,k,l,3,n,3,1,1
+0,i,j,k,l,m,3,1,3,1
+0,i,j,k,l,m,3,3,1,1
+
+0,3,j,3,l,3,n,1,p,1
+0,i,3,k,3,m,3,o,1,1
+0,i,j,1,3,m,3,o,3,1
+0,i,j,1,l,3,3,o,3,1
+0,i,j,1,l,3,n,3,3,1
+0,i,j,1,l,m,3,3,3,1
+0,i,j,3,1,3,n,o,3,1
+0,i,j,3,1,m,3,o,3,1
+0,i,j,3,3,1,n,o,3,1
+0,i,j,3,3,3,n,1,p,1
+0,i,j,3,3,3,n,o,1,1
+0,i,j,3,3,m,1,3,p,1
+0,i,j,3,3,m,1,o,3,1
+0,i,j,3,3,m,3,1,p,1
+0,i,j,3,3,m,3,o,1,1
+0,i,j,3,3,m,n,1,3,1
+0,i,j,3,3,m,n,3,1,1
+0,i,j,3,l,1,3,3,p,1
+0,i,j,3,l,1,3,o,3,1
+0,i,j,3,l,1,n,3,3,1
+0,i,j,3,l,3,1,3,p,1
+0,i,j,3,l,3,1,o,3,1
+0,i,j,3,l,3,3,1,p,1
+0,i,j,3,l,3,3,o,1,1
+0,i,j,3,l,3,n,1,3,1
+0,i,j,3,l,3,n,3,1,1
+0,i,j,3,l,m,3,1,3,1
+0,i,j,3,l,m,3,3,1,1
+0,i,j,k,3,3,3,o,1,1
+0,i,j,k,3,3,n,1,3,1
+0,i,j,k,3,3,n,3,1,1
+0,i,j,k,3,m,1,3,3,1
+0,i,j,k,3,m,3,1,3,1
+0,i,j,k,3,m,3,3,1,1
+0,i,j,k,l,1,3,3,3,1
+0,i,j,k,l,3,1,3,3,1
+0,i,j,k,l,3,3,1,3,1
+0,i,j,k,l,3,3,3,1,1
+
+0,i,j,1,3,m,1,o,3,1
+0,i,j,1,3,m,3,o,1,1
+0,i,j,1,l,3,n,3,1,1
+0,i,j,1,l,3,1,o,3,1
+0,i,j,1,l,3,3,o,1,1
+0,i,j,1,l,m,3,3,1,1
+0,i,j,1,1,m,3,o,3,1
+0,i,j,3,l,1,3,o,1,1
+0,i,j,3,l,1,n,3,1,1
+0,i,j,3,l,1,1,o,3,1
+0,i,j,3,l,3,n,1,1,1
+0,i,j,3,l,3,1,1,p,1
+0,i,j,3,l,m,3,1,1,1
+0,i,j,3,1,3,n,1,p,1
+0,i,j,3,1,m,3,1,p,1
+0,i,j,3,1,m,n,1,3,1
+0,i,j,3,1,1,n,3,p,1
+0,i,j,3,1,1,n,o,3,1
+0,i,j,3,3,m,1,1,p,1
+0,i,j,3,3,m,n,1,1,1
+0,i,j,3,3,1,n,o,1,1
+0,i,j,k,3,m,3,1,1,1
+0,i,j,k,3,1,3,o,1,1
+0,i,j,k,3,1,n,3,1,1
+0,i,j,k,3,1,1,o,3,1
+0,i,j,k,3,3,n,1,1,1
+0,i,j,k,l,1,3,3,1,1
+0,i,j,k,l,1,1,3,3,1
+0,i,j,k,l,3,1,1,3,1
+0,i,j,k,l,3,3,1,1,1
+
+0,3,1,3,l,3,n,1,p,1
+0,3,1,1,l,3,n,3,p,1
+0,i,3,1,3,m,3,o,1,1
+0,i,3,1,l,3,n,3,1,1
+0,i,3,1,l,3,1,o,3,1
+0,i,3,1,1,m,3,o,3,1
+0,i,3,3,l,1,3,o,1,1
+0,i,3,3,l,1,n,3,1,1
+0,i,3,3,l,1,1,o,3,1
+0,i,3,3,l,3,n,1,1,1
+0,i,j,1,3,m,1,3,3,1
+0,i,j,1,3,m,3,3,1,1
+0,i,j,1,3,3,n,3,1,1
+0,i,j,1,3,3,1,o,3,1
+0,i,j,1,3,3,3,o,1,1
+0,i,j,1,l,3,1,3,3,1
+0,i,j,1,l,3,3,3,1,1
+0,i,j,1,1,3,n,3,3,1
+0,i,j,1,1,3,3,o,3,1
+0,i,j,1,1,m,3,3,3,1
+0,i,j,3,l,1,3,3,1,1
+0,i,j,3,l,1,1,3,3,1
+0,i,j,3,l,3,1,1,3,1
+0,i,j,3,l,3,3,1,1,1
+0,i,j,3,1,3,n,1,3,1
+0,i,j,3,1,3,3,1,p,1
+0,i,j,3,1,m,3,1,3,1
+0,i,j,3,1,1,3,o,3,1
+0,i,j,3,1,1,n,3,3,1
+0,i,j,3,3,m,1,1,3,1
+0,i,j,3,3,m,3,1,1,1
+0,i,j,3,3,1,3,o,1,1
+0,i,j,3,3,1,n,3,1,1
+0,i,j,3,3,1,1,3,p,1
+0,i,j,3,3,1,1,o,3,1
+0,i,j,3,3,3,n,1,1,1
+0,i,j,3,3,3,1,1,p,1
+0,i,j,k,3,1,3,3,1,1
+0,i,j,k,3,3,1,1,3,1
+0,i,j,k,3,3,3,1,1,1
+
+# Cleaning up, making sure the wires are immutable
+
+1,a,b,c,d,e,f,g,h,2
+2,a,b,c,d,e,f,g,h,0
+3,a,b,c,d,e,f,g,h,3
