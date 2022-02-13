@@ -13,6 +13,8 @@
 
 # The last rule ensures that Fireworld's photons easily "ignite" electrons on wires.   
 
+# A cell can not survive next to wire cells. 
+
 # Copyright by Yoel Matveyev, 2001-2020
 # The GNU General Public License v3.0
 
