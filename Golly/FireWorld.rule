@@ -13,6 +13,8 @@
 
 # The last rule mirrors the "2ak" behavior of Fireworld and helps to ignite electrons on wires by free photons.
 
+# A cell can not survive next to wire cells. 
+
 # Copyright by Yoel Matveyev, 2001-2022
 # The GNU General Public License v3.0
 
