@@ -3,19 +3,16 @@
 # The next generation of Fireworld (03ajkr/2ak/3), proven to be capable 
 # in itself of universal computation and suitable for constructing logic circuits.
 
-# This new generation of Fireworld is a hybrid rule combining 03ajkr7/2ak/3 and
+# This new generation of Fireworld is a hybrid rule combining the original Fireworld and
 # a Wireworld-like wiring system. It is fully backward compatible with Fireworld.
 
 # Wires are implemented as the fourth, immutable state. The new rules are as follows:
 
-# 1. A cell is born if surrounded by 1 live (state 1) cell and 2 or 3 wire cells.
-# 2. A cell is born if surrounded by 2 horizontally adjacent live cells and 2 or 3 wire cells.
+# 1. A cell is born, if surrounded by a living (state 1) cell and 2 or 3 wire cells.
+# 2. A cell is born, if surrounded by two horizontally adjacent living cells and 2 or 3 wire cells.
+# The second rule ensures that Fireworld's photons easily "ignite" electrons on wires.   
 
-# The last rule ensures that Fireworld's photons easily "ignite" electrons on wires.   
-
-# A cell can not survive next to wire cells. 
-
-# Copyright by Yoel Matveyev, 2001-2020
+# Copyright by Yoel Matveyev, 2020
 # The GNU General Public License v3.0
 
 @COLORS
@@ -48,7 +45,7 @@ var n=i
 var o=i
 var p=i
 
-# The original Fireworld augmented with S7
+# The original Fireworld
 
 0,1,1,i,j,k,l,m,n,1
 0,1,i,j,1,k,l,m,n,1
@@ -57,10 +54,9 @@ var p=i
 1,1,i,1,1,j,k,l,m,1
 1,1,1,i,j,1,k,l,m,1
 1,1,i,1,j,k,1,l,m,1
-1,1,1,1,1,1,1,1,i,1
-1,1,1,1,1,1,1,i,1,1
+1,1,i,1,j,k,l,m,1,1
 
-# A computer-generated list of all possible live cells and wire cells positions
+# A computer-generated list of all possible living cells and wire cells positions
 
 0,i,j,1,l,m,3,o,3,1
 0,i,j,3,3,m,n,1,p,1
