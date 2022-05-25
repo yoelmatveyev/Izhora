@@ -1,13 +1,17 @@
-@RULE FireWorld
+@RULE FireWorld7
 
 # Copyright by Yoel Matveyev, 2001-2022
-# The GNU General Public License v3.0
+# The GNU General Public License v3.0  
 
 # Redefinition of the old Fireworld (03ajkr/2ak/3), proven in itself to be capable 
 # of universal computation and to be suitable for constructing complex logic circuits.
 
-# The new FireWorld is a hybrid rule combining 03ajkr/2ak/3 and a Wireworld-like
-# wiring system. It is fully backward compatible with the old Fireworld.
+# This variety is based on a slightly different substrate rule, 03ajkr7/2ak/3,
+# where 2x2 blocks turn into period 3 guns.
+
+# It is a hybrid rule combining 03ajkr7/2ak/3 and a Wireworld-like
+# wiring system. It's fully backward compatible with 03ajkr7/2ak/3 
+# and almost always backward compatible with the original old Fireworld.
 
 # Wires are implemented as the fourth, immutable state. The new rules are as follows:
 
@@ -15,6 +19,9 @@
 # 2. A cell is born, if surrounded by 1 orthogonal and 1 diagonal neighboring living cell and 2 or 3 wire cells.
 
 # The last rule matches the "2ak" behavior of Fireworld and helps to ignite electrons on wires by free photons.
+
+# All FireWorld circuits, including computers, should work in this rule identically,
+# because 7 neighboring living cells are very unlikely to meet by natural evolution.
 
 @COLORS
 
@@ -46,7 +53,7 @@ var n=i
 var o=i
 var p=i
 
-# The original Fireworld rule from 2001
+# The substrate variety of the old Fireworld from 2001: 03ajkr7/2ak/3
 
 0,1,1,k,l,m,n,o,p,1
 0,1,j,k,1,m,n,o,p,1
@@ -55,6 +62,8 @@ var p=i
 1,1,j,1,1,m,n,o,p,1
 1,1,1,k,l,1,n,o,p,1
 1,1,j,1,l,m,1,o,p,1
+1,1,1,1,1,1,1,1,p,1
+1,1,1,1,1,1,1,o,1,1
 
 # A computer-generated list of all possible living cells and wire cells positions
 
