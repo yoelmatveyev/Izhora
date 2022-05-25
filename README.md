@@ -49,18 +49,17 @@ This rule may be abbreviated in Golly simply as **03ajkr/2ak/3**.
 
 The same as above and:
 
-***5. A cell is born if surrounded by 7 live cells***
-
 ***6. A cell is born if surrounded by 1 live cell and 2 or 3 wire cells.***
 
 ***7. A cell is born if surrounded by two horizontally adjacent live cells and 2 or 3 wire cells.***
 
 ## FireWorld
 
-The same as Fireworld2, except that the last rule is generalized to match the birth rule of the original Fireworld.
+The same as Fireworld2, except that the last rule is slightly generalized to match the birth rule of the original Fireworld.
 
 ***7. A cell is born, if surrounded by 1 orthogonal, 1 diagonal neighboring live cells and 2 or 3 wire cells.***
 
+The oldest Izhora machines with the 128x64 display (Izhora 1 and Izhora 1a) require Fireworld2. Izhora 2b world nder both rules and all newer versions with be developed by default for FireWorld.
 
 # Golly scripts
 
